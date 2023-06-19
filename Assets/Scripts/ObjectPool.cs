@@ -40,11 +40,14 @@ public class ObjectPool : MonoBehaviour
 
    IEnumerator EnemyInstantiate()
     {
-       
-        while(true )
+        yield return new WaitForSeconds(4F);
+
+        while (true )
         {
+            
             if (ispool)
             {
+
                 EnableObjectPool();
             }
             //for (int j = 0; j < poolLength; j++)
@@ -67,7 +70,7 @@ public class ObjectPool : MonoBehaviour
             yield return new WaitForSeconds(objectpooltime);
         }
     }
-    public void setispool()
+    public void setispool(int num)
     {
         if (ispool)
         {
@@ -80,7 +83,7 @@ public class ObjectPool : MonoBehaviour
             ispool = true;
         }
     }
-    public void Poolinactive()
+    public void Poolinactive(int num)
     {
         for (int j = 0; j < poolLength; j++)
         {

@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public float CurrentCurrency;
     int lives=3;
-    int wave=1;
+    public int wave=1;
     public float enemyspeed;
     float minenemyspeed=1f;
     float maxenemyspeed=4f;
@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     float minobjectpooltime;
     public float objectpooltime;
     public float timer;
-    public event Action poolreset;
+    public event Action<int> poolreset;
     public bool iscoroutine=true;
     ObjectPool objectPool;
     public int getlives
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
+        wave = 1;
         objectPool = FindObjectOfType<ObjectPool>();
         if (Instance != null)
         {
@@ -60,10 +61,9 @@ public class GameManager : MonoBehaviour
             if (iscoroutine)
             {
                 iscoroutine = false;
-                poolreset?.Invoke();
                 wave++;
+                poolreset(wave);
                 Currentwave(wave);
-                //setall gameobjet inactive
                 StartCoroutine(timerstart());
             }
         }
@@ -74,10 +74,15 @@ public class GameManager : MonoBehaviour
 
     IEnumerator timerstart()
     {
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(4f);
+        Poolrestart();
+    }
+
+    private void Poolrestart()
+    {
         timer = 0;
         iscoroutine = true;
-        objectPool.setispool();
+        objectPool.setispool(wave);
     }
 
     public void Currentwave(int wave)
