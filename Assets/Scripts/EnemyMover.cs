@@ -35,6 +35,8 @@ public class EnemyMover : MonoBehaviour
     {
         //Debug.Log("here on enable");
         /* ReturnToStart(Vector2Int.zero);*/
+        //attach the speed
+        enemyspeed= UnityEngine.Random.Range(1, GameManager.Instance.getenemyspeed);
         lives = 3;
         RegeneratePath();
     }

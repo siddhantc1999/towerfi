@@ -7,6 +7,7 @@ public class CanvasManager : MonoBehaviour
     [SerializeField] GameObject wave1;
     [SerializeField] GameObject wave2;
     [SerializeField] GameObject wave3;
+    [SerializeField] GameObject LevelCompleteText;
     GameObject prevwave;
     private void Awake()
     {
@@ -46,6 +47,12 @@ public class CanvasManager : MonoBehaviour
             prevwave.SetActive(false);
             wave3.SetActive(true);
             prevwave = wave3;
+        }
+        else
+        {
+            prevwave.SetActive(false);
+            LevelCompleteText.SetActive(true);
+            prevwave = LevelCompleteText;
         }
 
     }

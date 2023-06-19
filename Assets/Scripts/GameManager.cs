@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,15 +11,18 @@ public class GameManager : MonoBehaviour
     int lives=3;
     public int wave=1;
     public float enemyspeed;
-    float minenemyspeed=1f;
-    float maxenemyspeed=4f;
-    float maxobjectpooltime;
-    float minobjectpooltime;
+    public float minenemyspeed =1f;
+    public float maxenemyspeed =4f;
+    public float maxobjectpooltime;
+    public float minobjectpooltime;
     public float objectpooltime;
     public float timer;
     public event Action<int> poolreset;
+    public int currentsceneindex;
     public bool iscoroutine=true;
     ObjectPool objectPool;
+    public int CurrentScene;
+    public int leveltime;
     public int getlives
     {
         get { return lives; }
@@ -34,10 +38,19 @@ public class GameManager : MonoBehaviour
         get { return objectpooltime; }
         set { objectpooltime = value; }
     }
+    public float getenemyspeed
+    {
+        get { return enemyspeed; }
+        set { enemyspeed = value; }
+    }
     private void Awake()
     {
+       
         wave = 1;
+        Currentwave(wave);
         objectPool = FindObjectOfType<ObjectPool>();
+        CurrentScene = SceneManager.GetActiveScene().buildIndex;
+        //Debug.Log("the build index"+SceneManager.GetActiveScene().buildIndex);
         if (Instance != null)
         {
             Destroy(this.gameObject);
@@ -51,19 +64,29 @@ public class GameManager : MonoBehaviour
     private void Pooltime()
     {
       
-        if (timer < 10f)
+        if (timer < leveltime)
         {
-            //we will have to check here
+          
             timer += 1;
         }
-        else if (timer == 10f)
+        else if (timer == leveltime)
         {
             if (iscoroutine)
             {
                 iscoroutine = false;
-                wave++;
-                poolreset(wave);
-                Currentwave(wave);
+                if (wave < 3)
+                {
+                    wave++;
+                    poolreset(wave);
+                    Currentwave(wave);
+                }
+                //sceneloader here
+                else
+                {
+                    wave++;
+                    poolreset(wave);
+                    StartCoroutine(Loadnextscreen());
+                }
                 StartCoroutine(timerstart());
             }
         }
@@ -72,11 +95,18 @@ public class GameManager : MonoBehaviour
         
     }
 
+    IEnumerator Loadnextscreen()
+    {
+        yield return new WaitForSeconds(4f);
+        SceneManager.LoadScene(CurrentScene + 1);
+    }
+
     IEnumerator timerstart()
     {
         yield return new WaitForSeconds(4f);
         Poolrestart();
     }
+
 
     private void Poolrestart()
     {

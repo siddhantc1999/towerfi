@@ -4976,6 +4976,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMovers: []
   headLocator: {fileID: 3812104367217802543}
+  enemydistance: 0
+  maxdistance: 0
   target: {fileID: 0}
   thresholddistance: 20
   particleSystem: {fileID: 6576580757861001863}

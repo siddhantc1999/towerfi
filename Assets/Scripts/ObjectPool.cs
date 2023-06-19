@@ -12,7 +12,7 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] Vector3 startposition;
     public List<Transform> instantiatingpoints=new List<Transform>();
     public int j;
-    public int objectpooltime;         //1f-4f
+    public float objectpooltime;         //1f-4f
     public bool ispool=false;
    
     private void Awake()
@@ -49,24 +49,9 @@ public class ObjectPool : MonoBehaviour
             {
 
                 EnableObjectPool();
+                objectpooltime = UnityEngine.Random.Range(1,GameManager.Instance.objectpooltime);
+
             }
-            //for (int j = 0; j < poolLength; j++)
-            //{
-            //    //i value is incrementing itself
-            //    Debug.Log("the value of j "+j);
-            //    //Debug.Log("gameobject active " + enemylist[i].activeInHierarchy);
-            //    if (enemylist[j].activeInHierarchy == false)
-            //    {
-
-            //        //Debug.Log("the value of i "+i);
-            //        enemylist[j].SetActive(true);
-            //        //enemylist[j].transform.position = startposition;
-            //        //return;
-            //        yield return new WaitForSeconds(1f);
-            //    }
-            //}
-
-
             yield return new WaitForSeconds(objectpooltime);
         }
     }
@@ -74,12 +59,10 @@ public class ObjectPool : MonoBehaviour
     {
         if (ispool)
         {
-            Debug.Log("here in ispool true");
             ispool = false;
         }
         else if(!ispool)
         {
-            Debug.Log("here in ispool false");
             ispool = true;
         }
     }
@@ -96,17 +79,13 @@ public class ObjectPool : MonoBehaviour
     private void EnableObjectPool()
     {
         startposition = instantiatingpoints[UnityEngine.Random.Range(0, instantiatingpoints.Count)].transform.position;
-
-     /*   Debug.Log("the start position in object pool "+startposition);*/
         for (int j = 0; j < poolLength; j++)
         {
-            //i value is incrementing itself
-            //Debug.Log("the value of j "+j);
-            //Debug.Log("gameobject active " + enemylist[i].activeInHierarchy);
+          
             if (enemylist[j].activeInHierarchy == false)
             {
                 enemylist[j].transform.position = startposition;
-                //Debug.Log("the value of j " + j);
+           
                 enemylist[j].SetActive(true);
            
                
