@@ -19,13 +19,15 @@ public class EnemyMover : MonoBehaviour
     [SerializeField] float damage;
     [SerializeField] float lives=3;
     [SerializeField] ParticleSystem particleSystem;
+    //ParticleSystem explosion;
     public float enemyspeed;
     /// //////
 
     // Start is called before the first frame update
     private void Awake()
     {
-
+        //explosion = Instantiate(particleSystem,transform.position,Quaternion.identity);
+        //explosion.enableEmission = false;
         //particleSystem.enableEmission = false;
         pathfinder = FindObjectOfType<Pathfinder>();
         gridManager = FindObjectOfType<GridManager>();
@@ -157,8 +159,9 @@ public class EnemyMover : MonoBehaviour
         lives--;
         if (lives <= 0)
         {
-            //particleSystem.enableEmission = true;
-
+            //explosion.enableEmission = true;
+            //explosion.transform.position = transform.position;
+            Instantiate(particleSystem,transform.position,Quaternion.identity);
             gameObject.SetActive(false);
         }
     }

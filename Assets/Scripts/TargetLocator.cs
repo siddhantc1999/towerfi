@@ -61,7 +61,7 @@ public class TargetLocator : MonoBehaviour
         }
         if (target != null)
         {
-            Debug.Log("the target"+target);
+            //Debug.Log("the target"+target);
             float checkdistance = Vector3.Distance(transform.position, target.transform.position);
 
             if (checkdistance <= thresholddistance)
